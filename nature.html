@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Wilderness Chronicles | Nature's Timeless Gallery</title>
+  <!-- Google Fonts for elegant classic nature feel -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #FDF9F2;
+      color: #2C3A2B;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* classic nature background: subtle gradient + organic noise */
+    .nature-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: linear-gradient(145deg, #E8F0E3 0%, #CFE0C3 100%);
+      pointer-events: none;
+    }
+    .nature-bg::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" opacity="0.08"><path fill="none" d="M70 30 Q90 10 110 30 T150 30" stroke="%233c6e3f" stroke-width="1.5"/><circle cx="40" cy="150" r="8" fill="%234d7c4a"/><circle cx="160" cy="120" r="12" fill="%23345e30"/><path d="M20 180 L30 160 L45 180 Z" fill="%235d8a54" opacity="0.4"/></svg>');
+      background-repeat: repeat;
+      background-size: 38px;
+      pointer-events: none;
+    }
+
+    /* Smooth Scroll + container */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 1.8rem 2rem 5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* classic nature header */
+    .classic-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(70, 100, 60, 0.25);
+      margin-bottom: 2rem;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #2c5e2a, #6f9e4b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo i {
+      color: #4a7842;
+      font-size: 2rem;
+      margin-right: 8px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      margin-left: 2rem;
+      font-weight: 500;
+      color: #365f31;
+      transition: 0.2s;
+      font-size: 1rem;
+    }
+    .nav-links a:hover {
+      color: #8fbc6e;
+      transform: translateY(-1px);
+    }
+
+    /* hero with classic image & floating animation */
+    .hero-nature {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 3rem;
+      margin: 2rem 0 5rem;
+    }
+    .hero-text {
+      flex: 1;
+      animation: fadeUp 0.9s ease-out;
+    }
+    .hero-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.8rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1d3e1c;
+    }
+    .hero-text p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      color: #485e41;
+      max-width: 520px;
+    }
+    .hero-image {
+      flex: 1;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 30px 40px -20px rgba(0,0,0,0.2);
+      transition: transform 0.4s ease;
+      animation: gentleFloat 5s infinite alternate ease-in-out;
+    }
+    .hero-image img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s;
+    }
+    .hero-image:hover img {
+      transform: scale(1.03);
+    }
+    @keyframes gentleFloat {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-12px); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(35px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    /* section titles with classic underline */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+      margin: 4rem 0 1.2rem;
+      text-align: center;
+      font-weight: 600;
+      color: #2f5530;
+      position: relative;
+      letter-spacing: -0.3px;
+    }
+    .section-title:after {
+      content: '';
+      display: block;
+      width: 90px;
+      height: 3px;
+      background: #7da064;
+      margin: 0.6rem auto 0;
+      border-radius: 4px;
+    }
+
+    /* classic image gallery with smooth scrolling and animation on scroll */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 2rem;
+      margin: 2.5rem 0;
+    }
+    .nature-card {
+      background: #ffffffd9;
+      backdrop-filter: blur(1px);
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 18px 30px -12px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.7s ease, transform 0.6s ease, box-shadow 0.3s;
+    }
+    .nature-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .nature-card:hover {
+      transform: translateY(-10px) scale(1.01);
+      box-shadow: 0 28px 38px -16px rgba(58, 88, 35, 0.3);
+    }
+    .nature-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .nature-card:hover img {
+      transform: scale(1.05);
+    }
+    .card-content {
+      padding: 1.4rem;
+    }
+    .card-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #2b4b28;
+    }
+    .card-content p {
+      color: #556b4b;
+      margin-top: 6px;
+    }
+
+    /* classic landscape horizontal scroller (smooth scroll) */
+    .landscape-scroll {
+      margin: 4rem 0;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      white-space: nowrap;
+      padding: 1rem 0 2rem;
+      cursor: grab;
+      scrollbar-width: thin;
+      border-radius: 48px;
+    }
+    .landscape-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+    .landscape-scroll::-webkit-scrollbar-track {
+      background: #dcd8ce;
+      border-radius: 10px;
+    }
+    .landscape-scroll::-webkit-scrollbar-thumb {
+      background: #6f9e58;
+      border-radius: 10px;
+    }
+    .scroll-track {
+      display: inline-flex;
+      gap: 1.6rem;
+      padding: 0 0.5rem;
+    }
+    .scroll-item {
+      display: inline-block;
+      width: 340px;
+      border-radius: 32px;
+      background: white;
+      overflow: hidden;
+      box-shadow: 0 18px 24px -8px rgba(0,0,0,0.1);
+      transition: 0.25s;
+      white-space: normal;
+      vertical-align: top;
+    }
+    .scroll-item img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      transition: 0.3s;
+    }
+    .scroll-item:hover {
+      transform: translateY(-6px);
+    }
+    .scroll-item h4 {
+      padding: 1rem 1rem 0.5rem;
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* quote / testimonial classic animation */
+    .quote-block {
+      background: #eef3e7;
+      padding: 2.5rem;
+      border-radius: 80px 30px 80px 30px;
+      margin: 4rem 0;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+      transition: all 0.3s;
+    }
+    .quote-block i {
+      font-size: 2.8rem;
+      color: #618c49;
+      margin-bottom: 1rem;
+    }
+    .quote-block p {
+      font-size: 1.4rem;
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* classic cta */
+    .cta-nature {
+      background: #2c5a2a;
+      border-radius: 48px;
+      padding: 3rem;
+      text-align: center;
+      color: white;
+      margin: 3rem 0;
+      background-image: radial-gradient(circle at 10% 20%, rgba(255,215,150,0.12) 2%, transparent 2.5%);
+      background-size: 28px 28px;
+    }
+    .cta-nature h2 {
+      font-size: 2rem;
+      font-family: 'Playfair Display', serif;
+    }
+    .btn-nature {
+      display: inline-block;
+      background: #F7C873;
+      color: #2a4a25;
+      padding: 0.9rem 2.2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      margin-top: 1.3rem;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .btn-nature:hover {
+      background: #fcd586;
+      transform: scale(1.02);
+    }
+
+    /* footer */
+    footer {
+      text-align: center;
+      padding-top: 3rem;
+      color: #526e46;
+      border-top: 1px solid #cbdcc0;
+      margin-top: 2rem;
+    }
+
+    /* smooth scroll spacing */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (max-width: 780px) {
+      .hero-text h1 { font-size: 2.5rem; }
+      .container { padding: 1rem; }
+      .nav-links a { margin-left: 1rem; }
+      .section-title { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="nature-bg"></div>
+
+<div class="container">
+  <!-- classic navigation -->
+  <div class="classic-header">
+    <div class="logo">
+      <i class="fas fa-tree"></i> WILD CHRONICLES
+    </div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#gallery-main">Gallery</a>
+      <a href="#horizon">Horizons</a>
+      <a href="#story">Stories</a>
+    </div>
+  </div>
+
+  <!-- hero section with classic nature image -->
+  <div class="hero-nature">
+    <div class="hero-text">
+      <h1>Whispers of the Ancient Woods</h1>
+      <p>Step into timeless landscapes — where misty mountains meet golden meadows. A classic nature anthology with soulful imagery and smooth animations.</p>
+      <div style="margin-top: 1.8rem;">
+        <a href="#gallery-main" style="background: #507a40; color: white; padding: 0.7rem 1.8rem; border-radius: 40px; text-decoration: none; font-weight: 500;">Explore →</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://picsum.photos/id/104/700/450" alt="Classic Nature Lake Forest" loading="eager">
+    </div>
+  </div>
+
+  <!-- classic image gallery with smooth scroll animation (intersection observer) -->
+  <div id="gallery-main">
+    <div class="section-title"><i class="fas fa-feather-alt"></i> Timeless Frames</div>
+    <div class="gallery">
+      <div class="nature-card">
+        <img src="https://picsum.photos/id/15/500/350" alt="Mossy Forest">
+        <div class="card-content">
+          <h3>Enchanted Canopy</h3>
+          <p>Sunbeams filtering through ancient oaks — a moment of pure serenity.</p>
+        </div>
+      </div>
+      <div class="nature-card">
+        <img src="https://picsum.photos/id/96/500/350" alt="Alpine Vista">
+        <div class="card-content">
+          <h3>Alpine Majesty</h3>
+          <p>High altitude pastures and whispering winds, untouched beauty.</p>
+        </div>
+      </div>
+      <div class="nature-card">
+        <img src="https://picsum.photos/id/29/500/350" alt="Waterfall Cascade">
+        <div class="card-content">
+          <h3>Crystal Cascade</h3>
+          <p>The eternal dance of water and stone, hidden within emerald valleys.</p>
+        </div>
+      </div>
+      <div class="nature-card">
+        <img src="https://picsum.photos/id/42/500/350" alt="Golden Grassland">
+        <div class="card-content">
+          <h3>Golden Prairie</h3>
+          <p>Endless waves of wild grass under the soft glow of dusk.</p>
+        </div>
+      </div>
+      <div class="nature-card">
+        <img src="https://picsum.photos/id/58/500/350" alt="Misty Morning">
+        <div class="card-content">
+          <h3>Veil of Dawn</h3>
+          <p>Mystical fog rolling through pine forests, a painter's dream.</p>
+        </div>
+      </div>
+      <div class="nature-card">
+        <img src="https://picsum.photos/id/127/500/350" alt="Lush Valley">
+        <div class="card-content">
+          <h3>Valley of Peace</h3>
+          <p>Where wildflowers bloom and silence heals the soul.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- horizontal smooth scrolling section: classic nature panorama -->
+  <div id="horizon">
+    <div class="section-title"><i class="fas fa-mountain-sun"></i> Endless Horizons</div>
+    <div class="landscape-scroll" id="scrollContainer">
+      <div class="scroll-track">
+        <div class="scroll-item">
+          <img src="https://picsum.photos/id/116/500/320" alt="Mountain lake">
+          <h4>Serene Lake Reflection</h4>
+          <p style="padding:0 1rem 1rem;">Classic alpine mirror — snow peaks & still water.</p>
+        </div>
+        <div class="scroll-item">
+          <img src="https://picsum.photos/id/44/500/320" alt="Forest path">
+          <h4>Mossy Trail</h4>
+          <p style="padding:0 1rem 1rem;">Ancient woodland path leading into mystery.</p>
+        </div>
+        <div class="scroll-item">
+          <img src="https://picsum.photos/id/94/500/320" alt="Coastal cliffs">
+          <h4>Wild Atlantic Edge</h4>
+          <p style="padding:0 1rem 1rem;">Dramatic cliffs embracing the restless sea.</p>
+        </div>
+        <div class="scroll-item">
+          <img src="https://picsum.photos/id/31/500/320" alt="Autumn forest">
+          <h4>Golden Autumn</h4>
+          <p style="padding:0 1rem 1rem;">Maple trees painted in amber and crimson.</p>
+        </div>
+        <div class="scroll-item">
+          <img src="https://picsum.photos/id/13/500/320" alt="Sandstone arches">
+          <h4>Desert Whispers</h4>
+          <p style="padding:0 1rem 1rem;">Ancient stone sculpted by centuries of wind.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- poetic quote block with classic animation -->
+  <div class="quote-block" id="story">
+    <i class="fas fa-leaf"></i>
+    <p>“In every walk with nature one receives far more than he seeks.”</p>
+    <div style="margin-top: 12px;">— John Muir</div>
+  </div>
+
+  <!-- call to action connecting nature spirit -->
+  <div class="cta-nature">
+    <h2><i class="fas fa-camera"></i> Capture the Wild</h2>
+    <p style="margin-top: 0.5rem;">Join our classic nature collective — receive monthly visual stories.</p>
+    <a href="#" class="btn-nature">Discover Membership <i class="fas fa-arrow-right"></i></a>
+  </div>
+
+  <footer>
+    <p><i class="fas fa-seedling"></i> Wilderness Chronicles — timeless nature imagery & classic animations</p>
+    <div style="margin-top: 12px;">
+      <i class="fab fa-instagram"></i> <i class="fab fa-pinterest"></i> <i class="fab fa-twitter"></i>
+    </div>
+    <p style="font-size: 0.8rem; margin-top: 1rem;">© 2025 | Smooth scrolling · classic frames · inspired by earth</p>
+  </footer>
+</div>
+
+<script>
+  // Smooth scroll behavior and Intersection Observer for gallery cards animation
+  const cards = document.querySelectorAll('.nature-card');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // optional: keep visible once added
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2, rootMargin: "0px 0px -30px 0px" });
+  
+  cards.forEach(card => {
+    observer.observe(card);
+  });
+  
+  // Manual smooth horizontal scrolling with mouse drag for classic scroll section
+  const scrollContainer = document.getElementById('scrollContainer');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+  
+  if (scrollContainer) {
+    scrollContainer.addEventListener('mousedown', (e) => {
+      isDown = true;
+      scrollContainer.style.cursor = 'grabbing';
+      startX = e.pageX - scrollContainer.offsetLeft;
+      scrollLeft = scrollContainer.scrollLeft;
+    });
+    scrollContainer.addEventListener('mouseleave', () => {
+      isDown = false;
+      scrollContainer.style.cursor = 'grab';
+    });
+    scrollContainer.addEventListener('mouseup', () => {
+      isDown = false;
+      scrollContainer.style.cursor = 'grab';
+    });
+    scrollContainer.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scrollContainer.offsetLeft;
+      const walk = (x - startX) * 1.2;
+      scrollContainer.scrollLeft = scrollLeft - walk;
+    });
+    scrollContainer.style.cursor = 'grab';
+  }
+  
+  // Add additional smoothness to anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === "#" || targetId === "") return;
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+  
+  // small class for pre-visible images: set visible if already visible on load
+  window.addEventListener('load', () => {
+    cards.forEach(card => {
+      const rect = card.getContextBoundingClientRect ? card.getBoundingClientRect() : null;
+      if (rect && rect.top < window.innerHeight - 100) {
+        card.classList.add('visible');
+      }
+    });
+    // initial check for any card visible
+    const checkVisible = () => {
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 50 && !card.classList.contains('visible')) {
+          card.classList.add('visible');
+        }
+      });
+    };
+    checkVisible();
+    window.addEventListener('scroll', checkVisible);
+  });
+  
+  // add floating subtle nature particles (optional, classic touch)
+  const addParticles = () => {
+    const bgDiv = document.querySelector('.nature-bg');
+    if (!bgDiv) return;
+    for (let i = 0; i < 18; i++) {
+      let particle = document.createElement('div');
+      particle.style.position = 'absolute';
+      particle.style.width = Math.random() * 8 + 2 + 'px';
+      particle.style.height = particle.style.width;
+      particle.style.background = 'rgba(190, 210, 140, 0.3)';
+      particle.style.borderRadius = '50%';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.bottom = '-10px';
+      particle.style.animation = `floatUp ${8 + Math.random() * 20}s infinite ease-in`;
+      particle.style.animationDelay = Math.random() * 20 + 's';
+      particle.style.filter = 'blur(1px)';
+      bgDiv.appendChild(particle);
+    }
+    const style = document.createElement('style');
+    style.innerHTML = `@keyframes floatUp { 0% { transform: translateY(0) scale(0.6); opacity: 0; } 20% { opacity: 0.5; } 100% { transform: translateY(-100vh) scale(1.2); opacity: 0; } }`;
+    document.head.appendChild(style);
+  };
+  addParticles();
+  
+  // console greetings
+  console.log('🌿 Classic Nature Web — smooth scroll & animations active');
+</script>
+
+<!-- Additional style for smooth scroll and images -->
+<style>
+  .nature-card {
+    transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.6s ease;
+  }
+  img {
+    user-select: none;
+  }
+  .landscape-scroll {
+    scroll-behavior: smooth;
+    overflow-x: auto;
+  }
+  .hero-image img, .nature-card img, .scroll-item img {
+    transition: transform 0.4s;
+  }
+  .btn-nature {
+    transition: all 0.2s;
+  }
+  html {
+    scroll-padding-top: 20px;
+  }
+</style>
+</body>
+</html>
